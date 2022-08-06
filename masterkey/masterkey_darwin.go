@@ -20,10 +20,9 @@ func GetMasterKey(dummy string) ([]byte, error) {
 		stdout, stderr bytes.Buffer
 	)
 
-	// defer os.Remove(item.TempChromiumKey)
 	// Get the master key from the keychain
-	// $ security find-generic-password -wa 'Chrome'
-	cmd = exec.Command("security", "find-generic-password", "-wa", "Chrome Safe Storage")
+	// $ security find-generic-password -wa "Chrome"
+	cmd = exec.Command("security", "find-generic-password", "-wa", "Chrome")
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 	err := cmd.Run()
@@ -36,7 +35,12 @@ func GetMasterKey(dummy string) ([]byte, error) {
 		}
 		return nil, errors.New(stderr.String())
 	}
-	chromeSecret := bytes.TrimSpace(stdout.Bytes())
+
+	return KeyGeneration(stdout.Bytes())
+}
+
+func KeyGeneration(seed []byte) ([]byte, error) {
+	chromeSecret := bytes.TrimSpace(seed)
 	if chromeSecret == nil {
 		return nil, ErrWrongSecurityCommand
 	}

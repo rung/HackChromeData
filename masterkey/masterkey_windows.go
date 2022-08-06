@@ -32,3 +32,7 @@ func GetMasterKey(filepath string) ([]byte, error) {
 	}
 	return nil, nil
 }
+
+func KeyGeneration(seed []byte) ([]byte, error) {
+	return nil, nil
+}

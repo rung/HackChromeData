@@ -1,8 +1,6 @@
 package decrypter
 
 import (
-	"crypto/aes"
-	"crypto/cipher"
 	"errors"
 	"syscall"
 	"unsafe"
@@ -15,23 +13,6 @@ func Chromium(key, encryptPass []byte) ([]byte, error) {
 	} else {
 		return nil, errors.New("password is empty")
 	}
-}
-
-// chromium > 80 https://source.chromium.org/chromium/chromium/src/+/master:components/os_crypt/os_crypt_win.cc
-func aesGCMDecrypt(crypted, key, nounce []byte) ([]byte, error) {
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return nil, err
-	}
-	blockMode, err := cipher.NewGCM(block)
-	if err != nil {
-		return nil, err
-	}
-	origData, err := blockMode.Open(nil, nounce, crypted, nil)
-	if err != nil {
-		return nil, err
-	}
-	return origData, nil
 }
 
 type dataBlob struct {

@@ -1,8 +1,6 @@
 package decrypter
 
-import (
-	"errors"
-)
+import "errors"
 
 func Chromium(key, encryptPass []byte) ([]byte, error) {
 	if len(encryptPass) > 3 {

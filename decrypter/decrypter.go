@@ -23,6 +23,23 @@ func aes128CBCDecrypt(key, iv, encryptPass []byte) ([]byte, error) {
 	return dst, nil
 }
 
+// chromium > 80 https://source.chromium.org/chromium/chromium/src/+/master:components/os_crypt/os_crypt_win.cc
+func aesGCMDecrypt(crypted, key, nounce []byte) ([]byte, error) {
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
+	blockMode, err := cipher.NewGCM(block)
+	if err != nil {
+		return nil, err
+	}
+	origData, err := blockMode.Open(nil, nounce, crypted, nil)
+	if err != nil {
+		return nil, err
+	}
+	return origData, nil
+}
+
 func pkcs5UnPadding(src []byte, blockSize int) []byte {
 	n := len(src)
 	paddingNum := int(src[n-1])

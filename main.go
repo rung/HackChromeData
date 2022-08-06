@@ -17,7 +17,7 @@ func main() {
 	targetpath := flag.String("targetpath", "", "File path of the kind (Cookies or Login Data)")
 	kind := flag.String("kind", "", "cookie or logindata")
 	localState := flag.String("localstate", "", "File path of Local State file (Windows only)")
-	decryptedKey := flag.String("masterkey", "", "Base64 encoded Master Key (Use when you have Chrome's master key)")
+	sessionstorage := flag.String("sessionstorage", "", "Base64 encoded Master Key (Use when you have Chrome's master key)")
 
 	flag.Parse()
 	if *targetpath == "" || *kind == "" {
@@ -30,20 +30,29 @@ func main() {
 	}
 
 	// Get Chrome's master key
-	if *decryptedKey == "" {
+	var decryptedKey string
+	if *sessionstorage == "" {
+		// Default path to get master key
 		k, err := masterkey.GetMasterKey(*localState)
 		if err != nil {
 			log.Fatalf("Failed to get master key: %v", err)
 		}
-		*decryptedKey = base64.StdEncoding.EncodeToString(k)
+		decryptedKey = base64.StdEncoding.EncodeToString(k)
+	} else if runtime.GOOS == "darwin" {
+		// User input seed key in keychain
+		b, err := masterkey.KeyGeneration([]byte(*sessionstorage))
+		if err != nil {
+			log.Fatalf("Failed to get master key: %v", err)
+		}
+		decryptedKey = base64.StdEncoding.EncodeToString(b)
 	}
-	fmt.Println("Master Key: " + *decryptedKey)
+	fmt.Println("Master Key: " + decryptedKey)
 
 	// Get Decrypted Data
 	log.SetOutput(os.Stderr)
 	switch *kind {
 	case "cookie":
-		c, err := browsingdata.GetCookie(*decryptedKey, *targetpath)
+		c, err := browsingdata.GetCookie(decryptedKey, *targetpath)
 		if err != nil {
 			log.Fatalf("Failed to get logain data: %v", err)
 		}
@@ -53,7 +62,7 @@ func main() {
 		}
 
 	case "logindata":
-		ld, err := browsingdata.GetLoginData(*decryptedKey, *targetpath)
+		ld, err := browsingdata.GetLoginData(decryptedKey, *targetpath)
 		if err != nil {
 			log.Fatalf("Failed to get logain data: %v", err)
 		}
