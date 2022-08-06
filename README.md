@@ -10,6 +10,11 @@
 make build
 ```
 
+#### Supported OS and Architecture
+- Windows x64
+- macOS x64
+- macOS ARM64
+
 #### Usage
 - For Windows
 ```bash
@@ -20,7 +25,25 @@ hack-chrome-data.exe -kind cookie -targetpath "%HOMEPATH%\AppData\Local\Google\C
 hack-chrome-data.exe -kind logindata -targetpath "%HOMEPATH%\AppData\Local\Google\Chrome\User Data\Default\Login Data" -localstate "%HOMEPATH%\AppData\Local\Google\Chrome\User Data\Local State"
 ```
 
-- For macOS
+- For macOS (Normal)
 ````bash
+# Cookie
+$ ./hack-chrome-data -kind cookie -targetpath ~/Library/Application\ Support/Google/Chrome/Default/Cookies
+
+# Password
+$ ./hack-chrome-data -kind logindata -targetpath ~/Library/Application\ Support/Google/Chrome/Default/Login\ Data
 
 ````
+
+- For macOS (Use Keychain Value)
+```bash
+# Get Chrome Session Storage's value
+$ security find-generic-password -wa "Chrome"
+
+# Cookie
+$ ./hack-chrome-data -kind cookie -targetpath ~/Library/Application\ Support/Google/Chrome/Default/Cookies -sessionstorage <session storage value>
+
+# Password
+$ ./hack-chrome-data -kind logindata -targetpath ~/Library/Application\ Support/Google/Chrome/Default/Login\ Data -sessionstorage <session storage value>
+
+```
