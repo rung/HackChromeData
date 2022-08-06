@@ -17,7 +17,7 @@ func main() {
 	targetpath := flag.String("targetpath", "", "File path of the kind (Cookies or Login Data)")
 	kind := flag.String("kind", "", "cookie or logindata")
 	localState := flag.String("localstate", "", "File path of Local State file (Windows only)")
-	sessionstorage := flag.String("sessionstorage", "", "Base64 encoded Master Key (Use when you have Chrome's master key)")
+	sessionstorage := flag.String("sessionstorage", "", "(optional) Chrome Sesssion Storage on Keychain (Mac only)")
 
 	flag.Parse()
 	if *targetpath == "" || *kind == "" {
