@@ -2,21 +2,25 @@
 #### What's this
 - Simpler version of [HackBrowserData](https://github.com/moonD4rk/HackBrowserData) for training
   - Original source code came from [HackBrowserData](https://github.com/moonD4rk/HackBrowserData)
+- It's for Windows and maxOS
 
-#### For Windows (tbd)
-- Compire
-```shell
-brew install mingw-w64
-
-CGO_ENABLED=1 GOOS=windows GOARCH=amd64 CC=x86_64-w64-mingw32-gcc go build
+#### Build
+- It uses github.com/crazy-max/xgo to build cgo binary on cross environment.
+```bash
+make build
 ```
 
-- Usage
+#### Usage
+- For Windows
+```bash
+# Cookie
+hack-chrome-data.exe -kind cookie -targetpath "%HOMEPATH%\AppData\Local\Google\Chrome\User Data\Default\Network\Cookies" -localstate "%HOMEPATH%\AppData\Local\Google\Chrome\User Data\Local State"
 
-#### For Mac (tbd)
-- Compile
-````shell
-brew install FiloSottile/musl-cross/musl-cross
+# Password
+hack-chrome-data.exe -kind logindata -targetpath "%HOMEPATH%\AppData\Local\Google\Chrome\User Data\Default\Login Data" -localstate "%HOMEPATH%\AppData\Local\Google\Chrome\User Data\Local State"
+```
 
-CC=x86_64-linux-musl-gcc CXX=x86_64-linux-musl-g++ GOARCH=amd64 GOOS=linux CGO_ENABLED=1 go build -ldflags "-linkmode external -extldflags -static"
+- For macOS
+````bash
+
 ````
