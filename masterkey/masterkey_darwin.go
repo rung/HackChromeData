@@ -14,7 +14,7 @@ var (
 	ErrCouldNotFindInKeychain = errors.New("macOS could not find in keychain")
 )
 
-func GetMasterKey() ([]byte, error) {
+func GetMasterKey(dummy string) ([]byte, error) {
 	var (
 		cmd            *exec.Cmd
 		stdout, stderr bytes.Buffer
