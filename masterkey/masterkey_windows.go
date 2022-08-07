@@ -21,7 +21,6 @@ func GetMasterKey(filepath string) ([]byte, error) {
 		return nil, fmt.Errorf("Failed to open the copied local state file: %w", err)
 	}
 	encryptedKey := gjson.Get(string(j), "os_crypt.encrypted_key")
-	fmt.Println(encryptedKey.Num)
 	if encryptedKey.Exists() {
 		pureKey, err := base64.StdEncoding.DecodeString(encryptedKey.String())
 		if err != nil {
