@@ -2,7 +2,8 @@
 ## What's this
 - Simpler version of [HackBrowserData](https://github.com/moonD4rk/HackBrowserData) for training
   - Original source code is [HackBrowserData](https://github.com/moonD4rk/HackBrowserData) 
-- It's for Windows and maxOS
+- This software decrypt your Chrome's cookie and password, then send them to standard output.
+  - *This software doesn't upload any credential to the internet.*
 
 ## Build
 - It uses github.com/crazy-max/xgo to build cgo binary on cross environment.
