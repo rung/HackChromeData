@@ -1,4 +1,4 @@
-# HackChromeData for Seccamp2022
+# HackChromeData for Development Environment Security Training (Security Camp 2022)
 ## What's this
 - Simpler version of [HackBrowserData](https://github.com/moonD4rk/HackBrowserData) for training
   - Original source code is [HackBrowserData](https://github.com/moonD4rk/HackBrowserData) 
