@@ -34,7 +34,7 @@ hack-chrome-data.exe -kind logindata -targetpath "%HOMEPATH%\AppData\Local\Googl
 
 - For macOS (Normal)
   - (When your profile name is `Default`)
-  - this asks to access to keychain
+  - HackChromeData asks to access keychain
     - (`security find-generic-password -wa "Chrome"` is called internally)
 ````bash
 # Cookie
