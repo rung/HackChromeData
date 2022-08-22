@@ -1,10 +1,12 @@
 # HackChromeData for Development Environment Security Training (Security Camp 2022)
 ## What's this
 - The training material is here: https://github.com/rung/training-devenv-security. This repository is a part of the training.
-- Simpler version of [HackBrowserData](https://github.com/moonD4rk/HackBrowserData) for training
-  - Original source code is [HackBrowserData](https://github.com/moonD4rk/HackBrowserData) 
 - This software decrypt your Chrome's cookie and password, then send them to standard output.
   - This software **does not** upload any credential to the internet.
+
+### Referenced source code
+- Original source code is [HackBrowserData](https://github.com/moonD4rk/HackBrowserData).
+- This repository contains the necessary part only for PoC.
 
 ## Disclaimer
 - This tool is limited to education and security research only
