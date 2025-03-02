@@ -7,11 +7,38 @@ import (
 )
 
 func Chromium(key, encryptPass []byte) ([]byte, error) {
-	if len(encryptPass) > 15 {
-		// remove Prefix 'v10'
+	// Ensure the encrypted data has at least 3 bytes for the version prefix.
+	if len(encryptPass) < 3 {
+		return nil, errors.New("encrypted data too short")
+	}
+
+	switch string(encryptPass[:3]) {
+	case "v20":
+		// For v20:
+		// Remove the "v20" prefix. The next 12 bytes are the IV,
+		// and the remainder is the ciphertext (with tag).
+		if len(encryptPass) < 3+12 {
+			return nil, errors.New("invalid v20 data")
+		}
+		iv := encryptPass[3:15]
+		ciphertext := encryptPass[15:]
+		decrypted, err := aesGCMDecrypt(ciphertext, key, iv)
+		if err != nil {
+			return nil, err
+		}
+		// Remove the first 32 bytes of the decrypted data (internal header).
+		if len(decrypted) < 32 {
+			return nil, errors.New("decrypted data too short")
+		}
+		return decrypted[32:], nil
+	default:
+		// For non-v20 (e.g., v10):
+		// Remove the first 3 bytes as the prefix, then the next 12 bytes as the nonce,
+		// and the remainder as the ciphertext (with tag).
+		if len(encryptPass) <= 15 {
+			return nil, errors.New("password is empty")
+		}
 		return aesGCMDecrypt(encryptPass[15:], key, encryptPass[3:15])
-	} else {
-		return nil, errors.New("password is empty")
 	}
 }
 

@@ -10,6 +10,7 @@ import (
 	"log"
 	"os"
 	"runtime"
+	"encoding/hex"
 )
 
 func main() {
@@ -42,8 +43,14 @@ func main() {
 		}
 		decryptedKey = base64.StdEncoding.EncodeToString(b)
 	} else if runtime.GOOS == "windows" {
-		// Direct master key input for Windows
-		decryptedKey = *sessionstorage
+		// Direct master key input for Windows.
+		// If a hex string is provided, convert it to a base64 encoded string.
+		inputKey := *sessionstorage
+		if keyBytes, err := hex.DecodeString(inputKey); err == nil {
+			decryptedKey = base64.StdEncoding.EncodeToString(keyBytes)
+		} else {
+			decryptedKey = inputKey
+		}
 	}
 	fmt.Println("Master Key: " + decryptedKey)
 
