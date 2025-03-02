@@ -17,14 +17,10 @@ func main() {
 	targetpath := flag.String("targetpath", "", "File path of the kind (Cookies or Login Data)")
 	kind := flag.String("kind", "", "cookie or logindata")
 	localState := flag.String("localstate", "", "File path of Local State file (Windows only)")
-	sessionstorage := flag.String("sessionstorage", "", "(optional) Chrome Sesssion Storage on Keychain (Mac only)")
+	sessionstorage := flag.String("sessionstorage", "", "(optional) Chrome Sesssion Storage on Keychain")
 
 	flag.Parse()
 	if *targetpath == "" || *kind == "" {
-		flag.Usage()
-		os.Exit(1)
-	}
-	if runtime.GOOS == "windows" && *localState == "" {
 		flag.Usage()
 		os.Exit(1)
 	}
@@ -45,6 +41,9 @@ func main() {
 			log.Fatalf("Failed to get master key: %v", err)
 		}
 		decryptedKey = base64.StdEncoding.EncodeToString(b)
+	} else if runtime.GOOS == "windows" {
+		// Direct master key input for Windows
+		decryptedKey = *sessionstorage
 	}
 	fmt.Println("Master Key: " + decryptedKey)
 
