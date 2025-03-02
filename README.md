@@ -56,3 +56,18 @@ $ ./hack-chrome-data -kind cookie -targetpath ~/Library/Application\ Support/Goo
 
 # Password
 $ ./hack-chrome-data -kind logindata -targetpath ~/Library/Application\ Support/Google/Chrome/Default/Login\ Data
+````
+
+- For macOS (Use Keychain Value)
+  - (When your profile name is `Default`)
+  1. Get `Chrome Sesssion Storage` value on Keychain
+      - `security find-generic-password -wa "Chrome"`
+      - or you can get the value through forensic tool like [chainbreaker](https://github.com/n0fate/chainbreaker).
+  2. Decrypt cookies and passwords 
+```
+# Cookie
+$ ./hack-chrome-data -kind cookie -targetpath ~/Library/Application\ Support/Google/Chrome/Default/Cookies -sessionstorage <session storage value>
+
+# Password
+$ ./hack-chrome-data -kind logindata -targetpath ~/Library/Application\ Support/Google/Chrome/Default/Login\ Data -sessionstorage <session storage value>
+```
